@@ -69,7 +69,7 @@ public class LazyLoadedMap<K, T> extends LazyLoader<Map<K, T>> implements Iterab
         this.data.entrySet().removeIf(e -> !newData.containsKey(e.getKey()));
 
         // Store all items in the set.
-        newData.entrySet().stream().forEach(e -> this.data.put(e.getKey(), e.getValue()));
+        newData.entrySet().forEach(e -> this.data.put(e.getKey(), e.getValue()));
     }
 
     /**
