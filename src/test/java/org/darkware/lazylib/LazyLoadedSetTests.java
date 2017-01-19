@@ -24,10 +24,12 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * @author jeff
@@ -153,6 +155,35 @@ public class LazyLoadedSetTests
 
         // Check that the value hasn't been reloaded
         assertEquals(originalValue, a.value());
+    }
+
+    @Test
+    public void checkSetAccessor()
+    {
+        this.useSet("A");
+        LazyLoadedSet<String> a = new LazyLoadedSet<>(this::loadStrings);
+
+        assertThat(a.values()).containsExactlyElementsOf(this.stringSets.get("A"));
+    }
+
+    @Test
+    public void checkIterator()
+    {
+        this.useSet("A");
+        LazyLoadedSet<String> a = new LazyLoadedSet<>(this::loadStrings);
+
+        Iterator<String> iter = a.iterator();
+
+        assertThat(iter).containsExactlyElementsOf(this.stringSets.get("A"));
+    }
+
+    @Test
+    public void checkStream()
+    {
+        this.useSet("A");
+        LazyLoadedSet<String> a = new LazyLoadedSet<>(this::loadStrings);
+
+        assertThat(a.stream()).containsExactlyElementsOf(this.stringSets.get("A"));
     }
 
     public Set<String> loadStrings()

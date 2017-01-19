@@ -94,8 +94,8 @@ public class LazyLoadedMap<K, T> extends LazyLoader<Map<K, T>> implements Iterab
      *
      * @return A {@link Stream} object.
      */
-    public Stream<T> stream()
+    public Stream<Map.Entry<K,T>> stream()
     {
-        return this.map().values().stream();
+        return this.map().entrySet().stream();
     }
 }

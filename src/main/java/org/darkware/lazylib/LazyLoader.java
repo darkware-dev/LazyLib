@@ -105,6 +105,7 @@ public abstract class LazyLoader<T>
                 catch (Throwable t)
                 {
                     this.reportLoadError(t);
+                    throw new LazyGenerationException("There was an error loading the value.", t);
                 }
             }
         }
@@ -146,6 +147,7 @@ public abstract class LazyLoader<T>
         synchronized (this)
         {
             this.expiration = null;
+            this.onExpiration();
         }
     }
 
@@ -159,10 +161,7 @@ public abstract class LazyLoader<T>
      */
     public final boolean isLoaded()
     {
-        synchronized (this)
-        {
-            return this.expiration != null;
-        }
+        return this.expiration != null;
     }
 
     /**
@@ -193,5 +192,13 @@ public abstract class LazyLoader<T>
     protected void reportLoadError(final Throwable t)
     {
         // Do nothing by default.
+    }
+
+    /**
+     * This method is called whenever a {@link LazyLoader}
+     */
+    protected void onExpiration()
+    {
+        // Do nothing by default
     }
 }

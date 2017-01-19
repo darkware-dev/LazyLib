@@ -26,6 +26,12 @@
     <artifactId>lazylib</artifactId>
     <version>0.9</version>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <slfj4.version>1.7.22</slfj4.version>
+    </properties>
+
+
     <build>
         <plugins>
             <plugin>
@@ -46,6 +52,22 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.4.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Use SimpleLogger as the slf4j implementation in test -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slfj4.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

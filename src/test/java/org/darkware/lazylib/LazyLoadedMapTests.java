@@ -22,9 +22,11 @@ import org.junit.Test;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 /**
@@ -152,6 +154,35 @@ public class LazyLoadedMapTests
 
         // Check that the value hasn't been reloaded
         assertEquals(originalValue, a.value());
+    }
+
+    @Test
+    public void checkSetAccessor()
+    {
+        this.useMap("A");
+        LazyLoadedMap<Integer, String> a = new LazyLoadedMap<>(this::loadMap);
+
+        assertThat(a.map()).containsAllEntriesOf(this.stringMaps.get("A"));
+    }
+
+    @Test
+    public void checkIterator()
+    {
+        this.useMap("A");
+        LazyLoadedMap<Integer, String> a = new LazyLoadedMap<>(this::loadMap);
+
+        Iterator<String> iter = a.iterator();
+
+        assertThat(iter).containsExactlyElementsOf(this.stringMaps.get("A").values());
+    }
+
+    @Test
+    public void checkStream()
+    {
+        this.useMap("A");
+        LazyLoadedMap<Integer, String> a = new LazyLoadedMap<>(this::loadMap);
+
+        assertThat(a.stream()).containsExactlyElementsOf(this.stringMaps.get("A").entrySet());
     }
 
     public Map<Integer, String> loadMap()
