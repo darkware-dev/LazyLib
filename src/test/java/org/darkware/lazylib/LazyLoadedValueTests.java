@@ -23,6 +23,7 @@ import org.junit.Test;
 
 import java.lang.ref.WeakReference;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.concurrent.TimeUnit;
@@ -66,8 +67,8 @@ public class LazyLoadedValueTests
         a.value();
         assertFalse(a.isExpired());
 
-        // Wait longer than the expiration
-        Thread.sleep(350);
+        // Trigger the expiration by pushing it into the past.
+        a.updateExpiration(LocalDateTime.now().minus(5, ChronoUnit.SECONDS));
 
         // Check that the value is expired now
         assertTrue(a.isExpired());

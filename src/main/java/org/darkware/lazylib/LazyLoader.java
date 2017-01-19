@@ -164,6 +164,20 @@ public abstract class LazyLoader<T>
     }
 
     /**
+     * Force an update to the expiration time. This is primarily useful for manufacturing testing scenarios.
+     * It shouldn't be used for normal behavior unless you really want to be responsible for the ramifications.
+     *
+     * @param newExpiration The {@link LocalDateTime} of the new expiration time.
+     */
+    protected final void updateExpiration(final LocalDateTime newExpiration)
+    {
+        if (this.expiration != null)
+        {
+            this.expiration = newExpiration;
+        }
+    }
+
+    /**
      * Check if the data has been loaded for this item.
      * <p>
      * <em>Note:</em> Data that is loaded may still be expired. This method simply checks to see if some data has been
