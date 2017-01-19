@@ -29,6 +29,8 @@ import java.util.function.Supplier;
  * but it simplifies and normalizes the creation of child classes for lazy loading particular types of
  * data.
  *
+ * @param <T> The type of object which will be loaded.
+ *
  * @author jeff
  * @since 2016-05-16
  */
@@ -40,6 +42,16 @@ public abstract class LazyLoader<T>
     private final Duration ttl;
     private LocalDateTime expiration;
 
+    /**
+     * Create a new {@link LazyLoader}. The loader will be called (possibly repeatedly) to populate the value
+     * of this field.
+     * <p>
+     * There is no deterministic timeline for when the supplier lambda will be called. The generator code should be
+     * written and structured so that it can be invoked at any time during the lifetime of the loader.
+     *
+     * @param loader A {@link Supplier} to invoke to generate a value.
+     * @param ttl The amount of time the value should be held before it is regenerated.
+     */
     public LazyLoader(final Supplier<T> loader, final Duration ttl)
     {
         super();
@@ -102,10 +114,10 @@ public abstract class LazyLoader<T>
                     this.applyData(loader.get());
                     this.renew();
                 }
-                catch (Throwable t)
+                catch (Exception e)
                 {
-                    this.reportLoadError(t);
-                    throw new LazyGenerationException("There was an error loading the value.", t);
+                    this.reportLoadError(e);
+                    throw new LazyGenerationException("There was an error loading the value.", e);
                 }
             }
         }
@@ -180,8 +192,10 @@ public abstract class LazyLoader<T>
      */
     protected void renew()
     {
-        if (ttl == null) this.expiration = LocalDateTime.MAX;
-        else this.expiration = LocalDateTime.now().plus(this.ttl);
+        if (ttl == null)
+            this.expiration = LocalDateTime.MAX;
+        else
+            this.expiration = LocalDateTime.now().plus(this.ttl);
     }
 
     /**

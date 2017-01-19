@@ -26,6 +26,14 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
+ * A {@link LazyLoadedMap} is a specialized {@link LazyLoader} which efficiently loads a {@link Map}.
+ * <p>
+ * <em>Note:</em> The {@link Map} returned by the attached {@link Supplier} should not be assumed to be the
+ * {@link Map} used for internal storage in this object.
+ *
+ * @param <K> The object type for the {@link Map}'s key
+ * @param <T> The object type for the {@link Map}'s value
+ *
  * @author jeff
  * @since 2016-05-16
  */

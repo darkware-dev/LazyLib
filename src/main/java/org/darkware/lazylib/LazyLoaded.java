@@ -40,6 +40,8 @@ public class LazyLoaded<T> extends LazyLoader<T>
      * Create a new lazy loaded value handler. It will store an object of the parameterized type. The value
      * will not be fetched until needed, and won't be fetched again until it expires. This particular value
      * does not automatically expire, but it can be made to manually expire.
+     *
+     * @param loader A {@link Supplier} which returns the value the field should store at any time.
      */
     public LazyLoaded(final Supplier<T> loader)
     {
@@ -50,6 +52,7 @@ public class LazyLoaded<T> extends LazyLoader<T>
      * Create a new lazy loaded value handler. It will store an object of the parameterized type. The value
      * will not be fetched until needed, and won't be fetched again until it expires.
      *
+     * @param loader A {@link Supplier} which returns the value the field should store at any time.
      * @param ttl The amount of time the value should be allowed to be stored before the value automatically
      * expires.
      */
