@@ -75,26 +75,6 @@ public class LazyLoadedMapTests
     }
 
     @Test
-    public void checkCreationWithTTL() throws InterruptedException
-    {
-        this.useMap("A");
-        LazyLoadedMap<Integer, String> a = new LazyLoadedMap<>(this::loadMap, Duration.ofMillis(300));
-
-        // Check that the loading hasn't happened automatically
-        assertFalse(a.isLoaded());
-
-        // Load the value and implicitly set expiration
-        a.value();
-        assertFalse(a.isExpired());
-
-        // Wait longer than the expiration
-        Thread.sleep(350);
-
-        // Check that the value is expired now
-        assertTrue(a.isExpired());
-    }
-
-    @Test
     public void checkLoading()
     {
         this.useMap("A");
