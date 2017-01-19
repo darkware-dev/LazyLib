@@ -31,6 +31,8 @@ import java.util.function.Supplier;
  * There are two slightly different modes this wrapper can operate. Ultimately, both abide by the
  * same rules.
  *
+ * @param <T> The type of object stored in the field.
+ *
  * @author jeff
  * @since 2016-05-15
  */
